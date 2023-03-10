@@ -40,8 +40,13 @@ $routes->set404Override();
 $routes->get('/', [HomeController::class, 'index']);
 
 // dashboards
-$routes->get('/jobseeker/dashboard', [JobSeeker::class, 'index']);
-$routes->get('/employer/dashboard', [Employer::class, 'index']);
+// $routes->get('jobseeker/dashboard', [JobSeeker::class, 'index']);
+// $routes->get('employer/dashboard', 'Employer::index', ['filter' => 'auth']);
+// $routes->get('jobseeker/dashboard', 'JobSeeker::index', ['filter' => 'auth']);
+// $routes->get('employer/dashboard', [Employer::class, 'index']);
+$routes->get('employer/dashboard', 'Employer::index', ['filter' => 'userType:employer']);
+$routes->get('jobseeker/dashboard', 'JobSeeker::index', ['filter' => 'userType:job seeker']);
+
 
 //job seeker
 $routes->get('/logout', [JobSeeker::class, 'logout']);
@@ -55,28 +60,6 @@ $routes->post('/login', [LoginController::class, 'index']);
 
 
 
-
-
-// $routes->get('/signup', 'RegistrationController::index');
-// $routes->post('/register', 'RegistrationController::register');
-
-// $routes->get('/register', [RegistrationController::class, 'index']);
-// $routes->post('/register', [RegistrationController::class, 'register']);
-
-
-/*
- * --------------------------------------------------------------------
- * Additional Routing
- * --------------------------------------------------------------------
- *
- * There will often be times that you need additional routing and you
- * need it to be able to override any defaults in this file. Environment
- * based routes is one such time. require() additional route files here
- * to make that happen.
- *
- * You will have access to the $routes object within that file without
- * needing to reload it.
- */
 if (is_file(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
     require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
 }

@@ -42,16 +42,17 @@ class LoginController extends BaseController
 
                     // Store user data in session
                     $session->set([
+                        'isLoggedIn' => true,
                         'user_id' => $user['user_id'],
                         'username' => $user['username'],
-                        'user_type' => $user['user_type'],
+                        'userType' => $user['user_type'],
                     ]);
 
                     // Redirect to the appropriate dashboard
                     if ($user['user_type'] === 'job seeker') {
-                        return redirect()->to('/jobseeker/dashboard');
+                        return redirect()->to('jobseeker/dashboard');
                     } elseif ($user['user_type'] === 'employer') {
-                        return redirect()->to('/employer/dashboard');
+                        return redirect()->to('employer/dashboard');
                     }
                 } else {
                     // Password is incorrect

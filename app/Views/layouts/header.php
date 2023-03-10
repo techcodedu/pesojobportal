@@ -34,7 +34,7 @@
                                     Job</a>
 
                             </div>
-                            |
+                           
                         </li>
 
                         <li class="nav-item">
