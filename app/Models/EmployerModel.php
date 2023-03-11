@@ -14,4 +14,10 @@ class EmployerModel extends Model
     {
         return $this->insert($data);
     }
+    public function updateEmployer($employerId, $data)
+    {
+        $builder = $this->db->table('employers');
+        $builder->where('employer_id', $employerId);
+        $builder->update($data);
+    }
 }
