@@ -27,8 +27,8 @@ class UserTypeFilter implements FilterInterface
        // If not, redirect to their dashboard
        if ($userType === 'employer' && $params === 'jobseeker/dashboard') {
            return redirect()->to('/employer/dashboard');
-       } elseif ($userType === 'jobseeker' && $params === 'employer/dashboard') {
-           return redirect()->to('/jobseeker/dashboard');
+       } elseif ($userType === 'job seeker' && $params === 'employer/dashboard') {
+        return redirect()->to('/jobseeker/dashboard');
        }
     }
 
