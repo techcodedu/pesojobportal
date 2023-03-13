@@ -22,7 +22,6 @@ class UserTypeFilter implements FilterInterface
        if (!$session->get('isLoggedIn') || $userType === null) {
            return redirect()->to('/login');
        }
-
        // If user is already logged in, check if they are allowed to access the requested page
        // If not, redirect to their dashboard
        if ($userType === 'employer' && $params === 'jobseeker/dashboard') {
