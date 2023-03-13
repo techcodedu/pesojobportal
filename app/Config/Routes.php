@@ -59,7 +59,7 @@ $routes->get('/employer/job_postings', 'JobPosting::index',['filter' => 'userTyp
 $routes->get('job_postings/delete/(:num)', 'JobPosting::delete/$1',['filter' => 'userType:employer']);
 // Job post editing
 $routes->get('job_postings/edit/(:num)', 'JobPosting::edit/$1',['filter' => 'userType:employer']);
-$routes->post('job_postings/edit', 'JobPosting::edit',['filter' => 'userType:employer']);
+$routes->post('job_postings/update/(:num)', 'JobPosting::update/$1',['filter' => 'userType:employer']);
 
 
 

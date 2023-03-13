@@ -70,7 +70,7 @@
             </div>
           <?php endif; ?>
 
-          <?= form_open('/employer/job_postings/update/' . $jobPosting['job_posting_id'], ['method' => 'post']) ?>
+          <?= form_open('job_postings/update/' . $jobPosting['job_posting_id'], ['method' => 'post']) ?>
 
           <div class="form-group">
             <?= form_label('Title', 'title', ['class' => 'form-label']) ?>
@@ -95,19 +95,18 @@
             </div>
           </div>
           <div class="form-group row">
-            <div class="col-md-6">
+          <div class="col-md-6">
                 <?= form_label('Job Type', 'job_type_id', ['class' => 'form-label']) ?>
                 <?php $jobTypeOptions = []; ?>
                 <?php foreach ($jobTypesList as $jobType): ?>
                     <?php $jobTypeOptions[$jobType['id']] = $jobType['name']; ?>
                 <?php endforeach; ?>
-                <?= form_dropdown('job_type_id', $jobTypeOptions, $jobPosting['job_type_id'], ['id' => 'job_type_id', 'class' => 'form-control']) ?>
+                <?= form_dropdown('job_type_id', $jobTypeOptions, set_value('job_type_id'), ['id' => 'job_type_id', 'class' => 'form-control']) ?>
             </div>
             <div class="col-md-6">
               <?= form_label('Job Category', 'category_id', ['class' => 'form-label']) ?>
-              <?= form_dropdown('category_id', $jobCategoryOptions, $jobPosting['category_id'], ['id' => 'category_id', 'class' => 'form-control']) ?>
-
-              </div>
+              <?= form_dropdown('category_id', $jobCategories, set_value('category_id'), ['id' => 'category_id', 'class' => 'form-control']) ?>
+            </div>
 </div>
 <?= form_submit('submit', 'Update', ['class' => 'btn btn-primary']) ?>
 <?= form_close() ?>

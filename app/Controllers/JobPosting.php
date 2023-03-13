@@ -25,6 +25,8 @@ class JobPosting extends BaseController
         $this->jobPostingModel = new JobPostingModel();
         $this->session = \Config\Services::session();
         $this->validator = \Config\Services::validation();
+        $pager = \Config\Services::pager();
+
     }
     public function index()
     {
@@ -118,6 +120,12 @@ class JobPosting extends BaseController
         $userId = $session->get('user_id');
         $employerModel = new EmployerModel();
         $employer = $employerModel->where('user_id', $userId)->first();
+
+        // Check if the employer was found
+        // if (!$employer) {
+        //     // Handle the error here (e.g. redirect to an error page) need to complete registration first
+        //     return redirect()->to('/employer/registration');
+        // }
         $postData['employer_id'] = $employer['employer_id'];
     
         // Insert the data
@@ -139,40 +147,77 @@ class JobPosting extends BaseController
     }
 
     public function edit($id)
-{
-    // Load the job posting with the given ID from the database
-    $jobPostingModel = new JobPostingModel();
-    $jobPosting = $jobPostingModel->find($id);
+    {
+        // Load the job posting with the given ID from the database
+        $jobPostingModel = new JobPostingModel();
+        $jobPosting = $jobPostingModel->find($id);
 
-    // Load the model for job categories and job types
-    $jobCategoryModel = new JobCategoryModel();
-    $jobTypeModel = new JobTypeModel();
+        // Load the model for job categories and job types
+        $jobCategoryModel = new JobCategoryModel();
+        $jobTypeModel = new JobTypeModel();
 
-    // Retrieve all job categories and job types
-    $jobCategories = $jobCategoryModel->findAll();
-    $jobTypesList = $jobTypeModel->findAll();
+        // Retrieve all job categories and job types
+        $jobCategories = $jobCategoryModel->findAll();
+        $jobTypesList = $jobTypeModel->findAll();
 
-    // Modify the job types and job categories arrays to have name as option text
-    $jobTypeOptions = [];
-    foreach ($jobTypesList as $jobType) {
-        $jobTypeOptions[$jobType['id']] = $jobType['name'];
+        // Modify the job types and job categories arrays to have name as option text
+        $jobTypeOptions = [];
+        foreach ($jobTypesList as $jobType) {
+            $jobTypeOptions[$jobType['id']] = $jobType['name'];
+        }
+
+        $jobCategoryOptions = [];
+        foreach ($jobCategories as $jobCategory) {
+            $jobCategoryOptions[$jobCategory['id']] = $jobCategory['name'];
+        }
+
+        // Render a view that allows the user to edit the job posting details
+        return view('employer/job_postings/edit', [
+            'jobPosting' => $jobPosting,
+            'jobTypesList' => $jobTypesList,
+            'jobTypeOptions' => $jobTypeOptions,
+            'jobCategories' => $jobCategoryOptions,
+            'validation' => $this->validator
+        ]);
     }
+        public function update($id)
+        {
+            // Load the job posting with the given ID from the database
+            $jobPostingModel = new JobPostingModel();
+            $jobPosting = $jobPostingModel->find($id);
 
-    $jobCategoryOptions = [];
-    foreach ($jobCategories as $jobCategory) {
-        $jobCategoryOptions[$jobCategory['id']] = $jobCategory['name'];
-    }
+            // Run the validation on the input data
+            if (!$this->validate($jobPostingModel->validationRules)) {
+                $data['validation'] = $this->validator;
+                $jobCategoryModel = new JobCategoryModel();
+                $jobTypeModel = new JobTypeModel();
+                $jobTypes = $jobTypeModel->findAll();
+                $jobTypesList = [];
+                foreach ($jobTypes as $jobType) {
+                    $jobTypesList[$jobType['id']] = $jobType;
+                }
+                $data['jobTypesList'] = $jobTypesList;
+                $jobCategories = $jobCategoryModel->findAll();
+                $jobCategoriesOptions = [];
+                foreach ($jobCategories as $jobCategory) {
+                    $jobCategoriesOptions[$jobCategory['id']] = $jobCategory['name'];
+                }
+                $data['jobCategories'] = $jobCategoriesOptions;
+                $data['jobPosting'] = $jobPosting;
+                return view('employer/job_postings/edit', $data);
+            }
 
-    // Render a view that allows the user to edit the job posting details
-    return view('employer/job_postings/edit', [
-        'jobPosting' => $jobPosting,
-        'jobTypesList' => $jobTypesList,
-        'jobCategoriesList' => $jobCategories,
-        'jobTypeOptions' => $jobTypeOptions,
-        'jobCategoryOptions' => $jobCategoryOptions,
-        'validation' => $this->validator
-    ]);
-}
+            // Get the form data
+            $postData = $this->request->getPost();
+
+            // Update the job posting
+            $jobPostingModel->update($id, $postData);
+
+            // Set a flash message and redirect to the job postings index page
+            session()->setFlashdata('success', 'Job posting updated successfully!');
+            return redirect()->to('/employer/job_postings');
+        }
+
 
 
 
