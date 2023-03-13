@@ -1,6 +1,6 @@
 <?php $this->extend('layouts/main'); ?>
     <?php $this->section('title'); ?>
-        Employer Dashboard
+        Employer| Profile
     <?php $this->endSection(); ?>
 
     <?php $this->section('nav'); ?>
@@ -54,13 +54,30 @@
 
         </div>
     <?php $this->endSection(); ?>
-
     <?php $this->section('content'); ?>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <h2>Document View</h2>
-                </div>
-            </div>
+    <div class="container">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h2 class="m-0"><?= $employer['company_name'] ?></h2>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6 col-sm-12">
+          <img src="<?= site_url('public/'.$employer['company_logo']) ?>" alt="<?= $employer['company_name'] ?>" class="img-fluid">
         </div>
+        <div class="col-md-6 col-sm-12">
+          <p class="card-text"><?= $employer['company_description'] ?></p>
+          <p class="card-text"><strong>Website:</strong> <a href="<?= $employer['website'] ?>" target="_blank"><?= $employer['website'] ?></a></p>
+          <p class="card-text"><strong>Address:</strong> <?= $employer['address'] ?></p>
+          <p class="card-text"><strong>Number of Employees:</strong> <?= $employer['number_of_employees'] ?></p>
+          <a href="<?= base_url('employer/edit') ?>" class="btn btn-outline-primary"><i class="fas fa-pencil-alt mr-2"></i>Edit Profile</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
     <?php $this->endSection(); ?>

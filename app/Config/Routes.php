@@ -39,18 +39,25 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', [HomeController::class, 'index']);
 
-// dashboards
-// $routes->get('jobseeker/dashboard', [JobSeeker::class, 'index']);
-// $routes->get('employer/dashboard', 'Employer::index', ['filter' => 'auth']);
-// $routes->get('jobseeker/dashboard', 'JobSeeker::index', ['filter' => 'auth']);
-// $routes->get('employer/dashboard', [Employer::class, 'index']);
+// employer  protected routes
 $routes->get('employer/dashboard', 'Employer::index', ['filter' => 'userType:employer']);
+$routes->get('employer/registration', 'Employer::registration', ['filter' => 'userType:employer']);
+$routes->post('employer/register/complete', 'Employer::completeRegistration', ['filter' => 'userType:employer']);
+$routes->get('employer/dashboard/profile', 'Employer::profile', ['filter' => 'userType:employer']);
+//employer profile edit
+$routes->get('employer/edit', 'Employer::edit', ['filter' => 'userType:employer']);
+$routes->post('employer/update', 'Employer::update', ['filter' => 'userType:employer']);
+// protecting the complete registratoin route
+
+
+
+
+// jobseeker protected routes
 $routes->get('jobseeker/dashboard', 'JobSeeker::index', ['filter' => 'userType:job seeker']);
 
 
 //job seeker
 $routes->get('/logout', [JobSeeker::class, 'logout']);
-
 // registration route
 $routes->get('/signup', [RegisterController::class, 'index']);
 $routes->post('/signup/register', [RegisterController::class, 'register']);

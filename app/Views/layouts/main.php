@@ -29,7 +29,8 @@
         <ul class="navbar-nav ml-auto">
             <li class="nav-item d-flex align-items-center">
                 <div>
-                    <p class="mr-2 mb-0">Welcome, <?php echo $user['username']; ?></p>
+                <p class="mr-2 mb-0">Welcome, <?php echo isset($username) ? $username : '' ?></p>
+
                 </div>
                 <a class="nav-link" href="<?= site_url('/logout') ?>">
                     <i class="fas fa-sign-out-alt"></i> Logout
