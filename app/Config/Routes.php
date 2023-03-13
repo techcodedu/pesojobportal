@@ -6,6 +6,7 @@ use App\Controllers\HomeController;
 use App\Controllers\JobSeeker;
 use App\Controllers\LoginController;
 use App\Controllers\RegisterController;
+use App\Controllers\JobPosting;
 use App\Controllers\Employer;
 
 // use App\Controllers\RegistrationController;
@@ -48,6 +49,19 @@ $routes->get('employer/dashboard/profile', 'Employer::profile', ['filter' => 'us
 $routes->get('employer/edit', 'Employer::edit', ['filter' => 'userType:employer']);
 $routes->post('employer/update', 'Employer::update', ['filter' => 'userType:employer']);
 // protecting the complete registratoin route
+
+// employer job posting
+$routes->get('/employer/job_postings/create', 'JobPosting::create',['filter' => 'userType:employer']);
+$routes->post('/employer/job_postings', 'JobPosting::store',['filter' => 'userType:employer']);
+$routes->get('/employer/job_postings', 'JobPosting::index',['filter' => 'userType:employer']);
+
+// Job post deleted
+$routes->get('job_postings/delete/(:num)', 'JobPosting::delete/$1',['filter' => 'userType:employer']);
+// Job post editing
+$routes->get('job_postings/edit/(:num)', 'JobPosting::edit/$1',['filter' => 'userType:employer']);
+$routes->post('job_postings/edit', 'JobPosting::edit',['filter' => 'userType:employer']);
+
+
 
 
 

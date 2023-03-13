@@ -1,6 +1,6 @@
 <?php $this->extend('layouts/main'); ?>
     <?php $this->section('title'); ?>
-        Employer| Profile
+        Manage Job Post
     <?php $this->endSection(); ?>
 
     <?php $this->section('nav'); ?>
@@ -54,34 +54,67 @@
 
         </div>
     <?php $this->endSection(); ?>
-    <?php $this->section('content'); ?>
-        <div class="container">
-            <?php if (empty($employer)) : ?>
-                <div class="alert alert-warning">
-                    You have not completed your registration yet. Click the button below to proceed to the complete registration form.
-                </div>
-                <a href="<?= base_url('employer/registration') ?>" class="btn btn-primary">Complete Registration</a>
-            <?php else : ?>
-                <div class="card shadow">
-                    <div class="card-header bg-primary text-white">
-                        <h2 class="m-0"><?= $employer['company_name'] ?></h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6 col-sm-12">
-                                <img src="<?= site_url('public/' . $employer['company_logo']) ?>" alt="<?= $employer['company_name'] ?>" class="img-fluid">
-                            </div>
-                            <div class="col-md-6 col-sm-12">
-                                <p class="card-text"><?= $employer['company_description'] ?></p>
-                                <p class="card-text"><strong>Website:</strong> <a href="<?= $employer['website'] ?>" target="_blank"><?= $employer['website'] ?></a></p>
-                                <p class="card-text"><strong>Address:</strong> <?= $employer['address'] ?></p>
-                                <p class="card-text"><strong>Number of Employees:</strong> <?= $employer['number_of_employees'] ?></p>
-                                <a href="<?= base_url('employer/edit') ?>" class="btn btn-outline-primary"><i class="fas fa-pencil-alt mr-2"></i>Edit Profile</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <?php endif; ?>
-        </div>
-    <?php $this->endSection(); ?>
 
+    <?= $this->section('content') ?>
+<div class="container-fluid">
+  <h1 class="mb-4">Job Postings</h1>
+  <div class="row">
+    <?php foreach ($jobPostings as $jobPosting): ?>
+    <div class="col-md-4">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title font-weight-bold"><?= $jobPosting['title'] ?></h5>
+          <p class="card-text"><?= $jobPosting['description'] ?></p>
+          <div class="row">
+            <div class="col-6">
+              <p class="card-text">
+                <i class="fas fa-briefcase mr-2"></i>
+                <?= $jobPosting['job_type_name'] ?>
+              </p>
+            </div>
+            <div class="col-6">
+              <p class="card-text">
+                <i class="fas fa-map-marker-alt mr-2"></i>
+                <?= $jobPosting['location'] ?>
+              </p>
+            </div>
+          </div>
+          <p class="card-text">
+            <span class="badge badge-secondary">
+              Salary: <?= $jobPosting['salary'] ?>
+            </span>
+          </p>
+          <p class="card-text">
+            <small class="text-muted">
+              <i class="fas fa-layer-group mr-2"></i>
+              <?= $jobPosting['job_type_name'] ?>
+            </small>
+          </p>
+          <p class="card-text">
+            <small class="text-muted">
+              <i class="fas fa-th-large mr-2"></i>
+              <?= $jobPosting['category_name'] ?>
+            </small>
+          </p>
+        </div>
+        <div class="card-footer">
+          <a href="#" class="btn btn-primary btn-sm mr-2">
+            <i class="fas fa-eye mr-1"></i>
+            View
+          </a>
+          <a href="<?= site_url('/job_postings/edit/'. $jobPosting['job_posting_id']) ?>" class="btn btn-secondary btn-sm mr-2">
+            <i class="fas fa-edit mr-1"></i>
+            Edit
+        </a>
+
+          <a href="<?= site_url("job_postings/delete/{$jobPosting['job_posting_id']}") ?>" class="btn btn-danger btn-sm">
+            <i class="fas fa-trash mr-1"></i> Remove
+        </a>
+
+        </div>
+      </div>
+    </div>
+    <?php endforeach; ?>
+  </div>
+</div>
+<?= $this->endSection() ?>
