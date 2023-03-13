@@ -80,6 +80,12 @@ class Employer extends BaseController
         $userId = $this->session->get('user_id');
         $employer = $employerModel->where('user_id', $userId)->first();
 
+        // Check if the employer data is null
+        if (is_null($employer)) {
+            // Render the view without passing any data
+            return view('employer/profile');
+        }
+
         // Pass the employer data to the view
         $data = [
             'employer' => $employer,

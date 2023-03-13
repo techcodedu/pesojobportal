@@ -24,7 +24,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="<?= site_url('/employer/dashboard/post-job') ?>" class="nav-link">
+                                <a href="<?= site_url('/employer/job_postings/create') ?>" class="nav-link">
                                     <i class="fas fa-user"></i>
                                     <p>Post a Job</p>
                                 </a>
